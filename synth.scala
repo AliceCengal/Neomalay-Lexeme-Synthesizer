@@ -127,19 +127,47 @@ object StandardGlyph extends Glypher {
   }
 }
 
-object NaturalGlyph extends StandardGlyph {
+object NaturalGlyph extends Glypher {
   import Register._
   
-  val (C1, V1, C2, C3, V2, C4) = (0, 1, 2, 3, 4, 5)
-  
   def transform(seq: Seq[Phoneme]): Seq[Phoneme] = {
+    val C1 = 0
+    val V1 = 1
+    val C2 = 2
+    val C3 = 3
+    val V2 = 4
+    val C4 = 5
+    
     val word = seq.toArray
     val consonants = plosives ++ fricatives ++ nasals
   
-    if ( word() )
+    if ( (word(V2),word(C4)) == (U,Y) ) { word(V2)=O;word(C4)=I }
+    if ( (word(V2),word(C4)) == (I,W) ) { word(V2)=I;word(C4)=U }
+    if ( (word(V2),word(C4)) == (A,Y) ) { word(V2)=A;word(C4)=I }
+    if ( (word(V2),word(C4)) == (A,W) ) { word(V2)=A;word(C4)=U }
+    
+    if ( (word(V1),word(C2),word(C3),word(V2)) == (I,NULLF,Y,A) ) { 
+      word(C3)=NULLF }
+    if ( (word(V1),word(C2),word(C3),word(V2)) == (U,NULLF,W,A) ) { 
+      word(C3)=NULLF }
+    
+    if ( word(V2) == I && consonants.contains(word(C4)) ) {
+      word(V2) = E;
+      if (word(V1) == I) word(V1) = E
+    }
+    
+    if ( word(V2) == U && consonants.contains(word(C4)) ) {
+      word(V2) = O;
+      if (word(V1) == U) word(V1) = O
+    }
+    
+    word.toSeq
   }
   
-  def word(seq: Seq[Phoneme]): String = super.word(transform(seq))
+  def glyph(f: Phoneme): String = StandardGlyph.glyph(f)
+  
+  override def word(seq: Seq[Phoneme]): String = 
+    super.word(transform(seq))
 }
 
 object WordQuad {
@@ -238,7 +266,7 @@ println("Synth")
 
 val s = new LexemeSynth
 //s.trigraphtest()
-val words = s.synth.take(400).toSeq.map{StandardGlyph.word(_)}
+val words = s.synth.take(400).toSeq.map{NaturalGlyph.word(_)}
 WordQuad(words).foreach{println(_)}
 //print("Total lexemes generated: "); println(s.countLexemes(s.simpleSynth))
 println("Done")
