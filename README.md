@@ -1,4 +1,4 @@
-#NEO-MALAY LEXEME SYNTHESIZER
+# NEO-MALAY LEXEME SYNTHESIZER
 
 Athran Abdul Rahman
 Universiti Teknologi Malaysia
@@ -32,15 +32,16 @@ Please don't tell me about Prolog.
 
 **Sample Output**
 
-raskeng   |ngumem    |ngoyos    |nyesper   |ngangkah  |rocop     |rongkot   |iscam
-wecel     |menjam    |langgu    |lospol    |mabor     |kosong    |hances    |muku
-nguyau    |kescet    |rimbas    |teskau    |mescau    |teskek    |dapi      |nyewes
-descan    |ecoi      |kidom     |senger    |reteh     |jimak     |jisku     |monggoh
-raget     |huscu     |lujel     |anyom     |lemes     |hutek     |jegu      |recoh
-musci     |nyejong   |betem     |wantap    |loscok    |nagan     |rapos     |temen
-ngangah   |sesti     |hicor     |isoi      |jinyak    |askas     |mesop     |penggel
-serem     |mecep     |hingsar   |uspang    |pesel     |deceng    |udep      |ebol
-mespel    |pangses   |lestel    |gestep    |nunges    |cegan     |becoi     |gemem
-buhas     |nyungau   |tispan    |nyagang   |dohor     |watong    |heskos    |beler
-buncang   |lesi      |mendep    |mahek     |bagi      |pinggang  |guban     |kescang
+raskeng   | ngumem    | ngoyos    | nyesper   | ngangkah  | rocop     | rongkot   | iscam
+:---: | :---: | :---: | :---: | :---: | :---: | :---: | :---:
+wecel     | menjam    | langgu    | lospol    | mabor     | kosong    | hances    | muku
+nguyau    | kescet    | rimbas    | teskau    | mescau    | teskek    | dapi      | nyewes
+descan    | ecoi      | kidom     | senger    | reteh     | jimak     | jisku     | monggoh
+raget     | huscu     | lujel     | anyom     | lemes     | hutek     | jegu      | recoh
+musci     | nyejong   | betem     | wantap    | loscok    | nagan     | rapos     | temen
+ngangah   | sesti     | hicor     | isoi      | jinyak    | askas     | mesop     | penggel
+serem     | mecep     | hingsar   | uspang    | pesel     | deceng    | udep      | ebol
+mespel    | pangses   | lestel    | gestep    | nunges    | cegan     | becoi     | gemem
+buhas     | nyungau   | tispan    | nyagang   | dohor     | watong    | heskos    | beler
+buncang   | lesi      | mendep    | mahek     | bagi      | pinggang  | guban     | kescang
 
