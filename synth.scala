@@ -266,7 +266,7 @@ println("Synth")
 
 val s = new LexemeSynth
 //s.trigraphtest()
-val words = s.synth.take(400).toSeq.map{NaturalGlyph.word(_)}
-WordQuad(words).foreach{println(_)}
-//print("Total lexemes generated: "); println(s.countLexemes(s.simpleSynth))
+//val words = s.synth.take(400).toSeq.map{NaturalGlyph.word(_)}
+//WordQuad(words).foreach{println(_)}
+print("Total lexemes generated: "); println(s.countLexemes(s.simpleSynth))
 println("Done")

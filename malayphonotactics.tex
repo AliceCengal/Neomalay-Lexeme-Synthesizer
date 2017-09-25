@@ -165,10 +165,39 @@ That said, there are the /ian/ and /uan/ sequences, found in `kalian', `haruan',
 %
 %* Voiceless components (except for /c/) may be dropped \bigskip
 
+\section{Phonetic transformation}
+
+A number of transformation is applied to the generated lexeme in order to make it more visually and aurally similar to the vernacular Malay language.
+
+\textbf{Semivowel grapheme} -- The semivowels at the coda position are written as /i/ and /u/. Additionally, /uy/ is converted to /oi/.
+
+\textbf{Vowel glide} -- For the case of V--SV--V, the middle semivowel is elided and the two vowels are pronounced as a glide. This is an arbitrary choice as different dialects pronounce this sequence differently.
+
+\textbf{Lowering the front and back vowels} -- In the second syllable, for closed syllables, the vowels /i/ and /u/ are lowered to /e/ and /o/. Vowel harmonisation also occurs. If the first and second vowels are the same, then the first vowels are also lowered.
+
 \section{Lexeme formation}
 
-The Neomalay language described above has 18 consonants (19 if counting null) and 4 vowels. Before the phonotactic rules are considered, the number of words that can be generated using the CVCCVC prototype is
+The Neomalay language described above has 18 consonants (19 if counting null) and 4 vowels. Before the phonotactic rules are considered, the number of lexemes that can be generated using the CVCCVC prototype is
 
 \[ 19 \times 4 \times 19 \times 18 \times 4 \times 19 = \num{1975392} \]
+
+After the application of all phonotactic rules that I have so far, the number of lexemes generated is \num{81226}. Below is a random sampling of the final result of the synthesizer.
+
+\begin{center}
+\begin{tabular}{c c c c c c c c}
+	\toprule
+	raskeng & ngumem  & ngoyos  & nyesper & ngangkah & rocop    & rongkot & iscam   \\
+	 wecel  & menjam  & langgu  & lospol  & mabor    & kosong   & hances  & muku    \\
+	nguyau  & kescet  & rimbas  & teskau  & mescau   & teskek   & dapi    & nyewes  \\
+	descan  & ecoi    & kidom   & senger  & reteh    & jimak    & jisku   & monggoh \\
+	 raget  & huscu   & lujel   & anyom   & lemes    & hutek    & jegu    & recoh   \\
+	 musci  & nyejong & betem   & wantap  & loscok   & nagan    & rapos   & temen   \\
+	ngangah & sesti   & hicor   & isoi    & jinyak   & askas    & mesop   & penggel \\
+	 serem  & mecep   & hingsar & uspang  & pesel    & deceng   & udep    & ebol    \\
+	mespel  & pangses & lestel  & gestep  & nunges   & cegan    & becoi   & gemem   \\
+	 buhas  & nyungau & tispan  & nyagang & dohor    & watong   & heskos  & beler   \\
+	buncang & lesi    & mendep  & mahek   & bagi     & pinggang & guban   & kescang \\ \bottomrule
+\end{tabular}
+\end{center}
 
 \end{document}
