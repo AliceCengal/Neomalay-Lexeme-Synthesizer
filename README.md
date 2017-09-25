@@ -1,7 +1,7 @@
 # NEO-MALAY LEXEME SYNTHESIZER
 
-Athran Abdul Rahman
-Universiti Teknologi Malaysia
+Athran Abdul Rahman  
+Universiti Teknologi Malaysia  
 September 2017
 
 **Neo-malay** here means that the language to be used in this study 
