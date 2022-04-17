@@ -113,49 +113,60 @@ const registers = {
 
 const phonotactics = [
     function(c1, v1, c2, c3, v2, c4) { 
-        // Onset Homorganicity
+        // 1. Onset Homorganicity
         return !([c1, c3].equals( ['B', 'P'])) && !([c1, c3].equals( ['P', 'B'])) &&
             !([c1, c3].equals( ['C', 'J'])) && !([c1, c3].equals( ['J', 'C'])) &&
             !([c1, c3].equals( ['K', 'G'])) && !([c1, c3].equals( ['G', 'K'])); },
     function(c1, v1, c2, c3, v2, c4) { 
-        // Coda Consonants
+        // 2. Coda Consonants
         return !registers.voiced.includes(c2) && !registers.voiced.includes(c4) &&
             !registers.laminals.includes(c2) && !registers.laminals.includes(c4); },
     function(c1, v1, c2, c3, v2, c4) { 
-        // First Code
+        // 3. First Code
         return c2 != 'H' && !registers.voiceless.includes(c2) &&
             ( c2 != 'S' || registers.voiceless.includes(c3) ); },
     function(c1, v1, c2, c3, v2, c4) { 
-        // Nasal coda
+        // 4. Nasal coda
         return !registers.nasals.includes(c2) || 
             [c2,c3].equals(['M', 'B']) || [c2,c3].equals(['M', 'P']) || 
-            [c2,c3].equals(['N', 'T']) || [c2,c3].equals(['N', 'P']) || 
+            [c2,c3].equals(['N', 'T']) || [c2,c3].equals(['N', 'D']) || 
             [c2,c3].equals(['N', 'C']) || [c2,c3].equals(['N', 'J']) || 
             [c2,c3].equals(['NG', 'S']) || [c2,c3].equals(['NG', 'K']) ||
             [c2,c3].equals(['NG', 'G']) },
     function(c1, v1, c2, c3, v2, c4) { 
-        // R coda
+        // 5. R coda
         return !['R', 'L'].includes(c2); },
     function(c1, v1, c2, c3, v2, c4) { 
-        // No gemination
+        // 6. No gemination
         return c2 != c3; },
     function(c1, v1, c2, c3, v2, c4) { 
-        // No E in second syllable
+        // 7. No E in second syllable
         return v2 != 'E'; },
     function(c1, v1, c2, c3, v2, c4) { 
-        // No semivowel in first syllable
+        // 8. No semivowel in first syllable
         return !['W', 'Y'].includes(c2); },
     function(c1, v1, c2, c3, v2, c4) { 
-        // Semivowel harmony
-        return ![v2, c4].equals(['I', 'Y']) && ![v2, c4].equals(['U', 'W']) },
+        // 9. Semivowel harmony
+        return ![v2, c4].equals(['I', 'Y']) && ![v2, c4].equals(['E', 'Y']) && 
+            ![v2, c4].equals(['O', 'W']) && ![v2, c4].equals(['U', 'W']) },
     function(c1, v1, c2, c3, v2, c4) { 
-        // Semivowel harmony
+        // 10. Semivowel harmony
         return c1 != 'W' || ['A', 'I'].includes(v1); },
     function(c1, v1, c2, c3, v2, c4) { 
-        // Semivowel harmony
+        // 11. Semivowel harmony
         return c1 != 'Y' || ['A', 'U'].includes(v1); },
     function(c1, v1, c2, c3, v2, c4) { 
-        // Nasal middle
+        // 12. S scarcity
+        return c2 != 'S' && c4 != 'S'; },
+    function(c1, v1, c2, c3, v2, c4) { 
+        // 13. No I between voiced-voiceless pair
+        return v2 != 'I' || (![c3,c4].equals(['B','P']) && ![c3,c4].equals(['T','D']) &&
+            ![c3,c4].equals(['C','J']) && ![c3,c4].equals(['G','K'])); },
+    function(c1, v1, c2, c3, v2, c4) {
+        // 14. 
+        return c1 != 'NY' && c1 != 'NG'; },
+    function(c1, v1, c2, c3, v2, c4) { 
+        // 15. Nasal middle
         return !registers.nasals.includes(c3) || c2 == 'NULLF';
     }
 ];
@@ -239,6 +250,7 @@ window.onload = setup;
     <h1 class='w3-text-theme'>Neomalay Lexeme Synthesizer</h1>
     <button class='w3-theme-l4 w3-hover-theme'>Generate</button>
     <div class='w3-text-theme'></div>
+    <a href='https://github.com/AliceCengal/Neomalay-Lexeme-Synthesizer' target="_blank">About</a>
 </main>
 <footer>site design and logo &copy; Athran Zuhail 2022 all rights reserved</footer>
 </body>
