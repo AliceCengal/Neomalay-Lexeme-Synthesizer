@@ -1,5 +1,7 @@
 # NEO-MALAY LEXEME SYNTHESIZER
 
+https://alicecengal.github.io/Neomalay-Lexeme-Synthesizer/
+
 Athran Abdul Rahman  
 Universiti Teknologi Malaysia  
 September 2017
