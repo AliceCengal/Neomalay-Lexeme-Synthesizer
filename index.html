@@ -114,7 +114,6 @@ const registers = {
 const phonotactics = [
     function(c1, v1, c2, c3, v2, c4) { 
         // Onset Homorganicity
-        //console.log('c1 is ' + c1);
         return !([c1, c3].equals( ['B', 'P'])) && !([c1, c3].equals( ['P', 'B'])) &&
             !([c1, c3].equals( ['C', 'J'])) && !([c1, c3].equals( ['J', 'C'])) &&
             !([c1, c3].equals( ['K', 'G'])) && !([c1, c3].equals( ['G', 'K'])); },
@@ -174,9 +173,12 @@ function* shuffleGen() {
     }
 }
 
+//let genCount = 0;
+
 function tryGenerateValidWord(gen) {
     while (true) {
-        let w = gen.next().value
+        let w = gen.next().value;
+        //genCount = genCount + 1;
         if (
             phonotactics.reduce((a, b) => a && b.apply(null, w) , true)
         ) return w;
@@ -216,6 +218,7 @@ function setup() {
     btn.onclick = function(e) {
         div.innerHTML = '';
         let gen = shuffleGen();
+        //genCount = 0;
         let ix = 100;
         while (ix > 0) {
             ix = ix - 1;
@@ -224,6 +227,7 @@ function setup() {
             ww.innerHTML = wordParse(word);
             div.appendChild(ww);
         }
+        //console.log('Words generated: ' + genCount);
     };
 }
 
