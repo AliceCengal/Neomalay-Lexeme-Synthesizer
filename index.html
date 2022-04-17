@@ -50,7 +50,7 @@ footer {
 <script>
 // https://stackoverflow.com/questions/7837456/how-to-compare-arrays-in-javascript
 // Warn if overriding existing method
-if(Array.prototype.equals)
+if (Array.prototype.equals)
     console.warn("Overriding existing Array.prototype.equals. Possible causes: New API defines the method, there's a framework conflict or you've got double inclusions in your code.");
 // attach the .equals method to Array's prototype to call it on any array
 Array.prototype.equals = function (array) {
@@ -80,7 +80,7 @@ Array.prototype.equals = function (array) {
 Object.defineProperty(Array.prototype, "equals", {enumerable: false});
 
 function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
+    return Math.floor(Math.random() * max);
 }
 
 if (Array.prototype.random)
@@ -161,8 +161,8 @@ const phonotactics = [
         return c2 != 'S' && c4 != 'S'; },
     function(c1, v1, c2, c3, v2, c4) { 
         // 13. No I between voiced-voiceless pair
-        return v2 != 'I' || (![c3,c4].equals(['B','P']) && ![c3,c4].equals(['T','D']) &&
-            ![c3,c4].equals(['C','J']) && ![c3,c4].equals(['G','K'])); },
+        return v2 != 'I' || (![c3,c4].equals(['B','P']) && ![c3,c4].equals(['D','T']) &&
+            ![c3,c4].equals(['J','C']) && ![c3,c4].equals(['G','K'])); },
     function(c1, v1, c2, c3, v2, c4) {
         // 14. 
         return c1 != 'NY' && c1 != 'NG'; },
@@ -208,7 +208,7 @@ function wordParse(warr) {
 const gen = shuffleGen();
 
 function testRules() {
-    words = range(1,10000,1).map(a => gen.next().value);
+    let words = range(1,10000,1).map(a => gen.next().value);
     //console.log(words);
     let count = words
         .filter( ww => phonotactics.reduce( (a, b) => a && b.apply(null, ww) , true ) ).length ;
