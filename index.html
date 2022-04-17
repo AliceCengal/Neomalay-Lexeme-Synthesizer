@@ -122,7 +122,7 @@ const phonotactics = [
         return !registers.voiced.includes(c2) && !registers.voiced.includes(c4) &&
             !registers.laminals.includes(c2) && !registers.laminals.includes(c4); },
     function(c1, v1, c2, c3, v2, c4) { 
-        // 3. First Code
+        // 3. First Coda
         return c2 != 'H' && !registers.voiceless.includes(c2) &&
             ( c2 != 'S' || registers.voiceless.includes(c3) ); },
     function(c1, v1, c2, c3, v2, c4) { 
@@ -135,7 +135,8 @@ const phonotactics = [
             [c2,c3].equals(['NG', 'G']) },
     function(c1, v1, c2, c3, v2, c4) { 
         // 5. R coda
-        return !['R', 'L'].includes(c2); },
+        return !['R', 'L'].includes(c2) || registers.voiced.includes(c3) || 
+            registers.nasals.includes(c3) ; },
     function(c1, v1, c2, c3, v2, c4) { 
         // 6. No gemination
         return c2 != c3; },
