@@ -34,16 +34,18 @@ Please don't tell me about Prolog.
 
 **Sample Output**
 
-raskeng   | ngumem    | ngoyos    | nyesper   | ngangkah  | rocop     | rongkot   | iscam
+gahang | manoi | awor | barum | hawik | niso | niwal | togil
 :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---:
-wecel     | menjam    | langgu    | lospol    | mabor     | kosong    | hances    | muku
-nguyau    | kescet    | rimbas    | teskau    | mescau    | teskek    | dapi      | nyewes
-descan    | ecoi      | kidom     | senger    | reteh     | jimak     | jisku     | monggoh
-raget     | huscu     | lujel     | anyom     | lemes     | hutek     | jegu      | recoh
-musci     | nyejong   | betem     | wantap    | loscok    | nagan     | rapos     | temen
-ngangah   | sesti     | hicor     | isoi      | jinyak    | askas     | mesop     | penggel
-serem     | mecep     | hingsar   | uspang    | pesel     | deceng    | udep      | ebol
-mespel    | pangses   | lestel    | gestep    | nunges    | cegan     | becoi     | gemem
-buhas     | nyungau   | tispan    | nyagang   | dohor     | watong    | heskos    | beler
-buncang   | lesi      | mendep    | mahek     | bagi      | pinggang  | guban     | kescang
-
+lasa | jerau | golap | barah | cingat | cungsoi | ninjak | kido 
+acau | angsal | guyok | nayik | jalo | roliu | yucop | sacuh 
+cakup | hamba | ajui | bodau | tayu | adiu | gapam | kana 
+ajo | locir | gongo | hujip | gahur | anti | akah | lala 
+intup | benap | ecal | awau | poyut | taga | sota | laba 
+lumo | angau | maca | oho | reka | ihol | yunyol | tahi 
+ikam | luna | eso | saging | abal | umap | beca | amap 
+saku | anyim | ura | aga | yaja | edap | meca | anyui 
+kahar | nanga | idun | upo | palan | guwuh | suwan | pekah 
+ada | yayo | hakan | rarum | pendul | gotang | yakip | catin 
+yungan | tonah | napa | sana | mobih | aja | lusah | riho 
+elat | inya | haba | mupat | pihung | karan | gayi | acal 
+dagi | anyom | edo | nuho | nasan | debar | enoh | loti 
