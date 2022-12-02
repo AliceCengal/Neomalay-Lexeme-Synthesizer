@@ -1,260 +1,317 @@
 <!DOCTYPE html>
 <html lang='en'>
+
 <head>
-<meta>
-<title>Neomalay Lexeme Synthesizer</title>
-<link rel="shortcut icon" href="favicon.ico">
-<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-deep-purple.css">
-<style>
-html { 
-    font-family: Helvetica, Arial, sans-serif; 
-    box-sizing: border-box;
-    height: 100%;
-} 
-*, *:before, *:after { box-sizing: inherit; }
-body {
-    margin: 0;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-}
-main {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-}
-main button {
-    padding: 0.5em;
-}
-main div {
-    background-color: white;
-    margin: 1em;
-    max-width: 80em;
-    min-width: 50em;
-    display: grid;
-    grid-gap: 1em;
-    grid-template-columns: repeat(10, 1fr)
-}
-main div:not(:empty) {
-    padding: 1em;
-}
-footer {
-    margin: 1em;
-    font-size: small;
-    color: gray;
-}
-</style>
-<script>
-// https://stackoverflow.com/questions/7837456/how-to-compare-arrays-in-javascript
-// Warn if overriding existing method
-if (Array.prototype.equals)
-    console.warn("Overriding existing Array.prototype.equals. Possible causes: New API defines the method, there's a framework conflict or you've got double inclusions in your code.");
-// attach the .equals method to Array's prototype to call it on any array
-Array.prototype.equals = function (array) {
-    // if the other array is a falsy value, return
-    if (!array)
+  <meta charset="utf-8">
+  <title>Neomalay Lexeme Synthesizer</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-deep-purple.css">
+  <style>
+    html {
+      font-family: Helvetica, Arial, sans-serif;
+      box-sizing: border-box;
+      height: 100%;
+    }
+
+    *,
+    *:before,
+    *:after {
+      box-sizing: inherit;
+    }
+
+    body {
+      margin: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    main {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    main h1 {
+      text-align: center;
+    }
+
+    main button {
+      padding: 0.5rem;
+      border-radius: 4px;
+      margin-right: 1rem;
+    }
+
+    main div {
+      background-color: white;
+      width: min(50rem, calc(100% - 2rem));
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 1rem;
+    }
+
+    main div[data-grid='false'] {
+      display: block;
+    }
+
+    main div[data-grid='true'] {
+      display: grid;
+    }
+
+    @media (min-width: 600px) {
+      main div {
+        grid-template-columns: repeat(6, 1fr);
+      }
+    }
+
+    @media (min-width: 800px) {
+      main div {
+        grid-template-columns: repeat(8, 1fr);
+      }
+    }
+
+    main div:not(:empty) {
+      padding: 1rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+      border-radius: 4px;
+    }
+
+    footer {
+      margin: 1rem;
+      font-size: small;
+      color: gray;
+    }
+  </style>
+  <script>
+    // https://stackoverflow.com/questions/7837456/how-to-compare-arrays-in-javascript
+    // Warn if overriding existing method
+    if (Array.prototype.equals)
+      console.warn("Overriding existing Array.prototype.equals. Possible causes: New API defines the method, there's a framework conflict or you've got double inclusions in your code.");
+    // attach the .equals method to Array's prototype to call it on any array
+    Array.prototype.equals = function (array) {
+      // if the other array is a falsy value, return
+      if (!array)
         return false;
 
-    // compare lengths - can save a lot of time 
-    if (this.length != array.length)
+      // compare lengths - can save a lot of time 
+      if (this.length != array.length)
         return false;
 
-    for (var i = 0, l=this.length; i < l; i++) {
+      for (var i = 0, l = this.length; i < l; i++) {
         // Check if we have nested arrays
         if (this[i] instanceof Array && array[i] instanceof Array) {
-            // recurse into the nested arrays
-            if (!this[i].equals(array[i]))
-                return false;       
-        }           
-        else if (this[i] != array[i]) { 
-            // Warning - two different object instances will never be equal: {x:20} != {x:20}
-            return false;   
-        }           
-    }       
-    return true;
-}
-// Hide method from for-in loops
-Object.defineProperty(Array.prototype, "equals", {enumerable: false});
+          // recurse into the nested arrays
+          if (!this[i].equals(array[i]))
+            return false;
+        }
+        else if (this[i] != array[i]) {
+          // Warning - two different object instances will never be equal: {x:20} != {x:20}
+          return false;
+        }
+      }
+      return true;
+    }
+    // Hide method from for-in loops
+    Object.defineProperty(Array.prototype, "equals", { enumerable: false });
 
-function getRandomInt(max) {
-    return Math.floor(Math.random() * max);
-}
+    function getRandomInt(max) {
+      return Math.floor(Math.random() * max);
+    }
 
-if (Array.prototype.random)
-    console.warn('Overriding existing Array.prototype.random .');
-Array.prototype.random = function() {
-    if (this.length == 0) return null;
-    if (this.length == 1) return this[0];
-    return this[ getRandomInt(this.length) ];
-}
+    if (Array.prototype.random)
+      console.warn('Overriding existing Array.prototype.random .');
+    Array.prototype.random = function () {
+      if (this.length == 0) return null;
+      if (this.length == 1) return this[0];
+      return this[getRandomInt(this.length)];
+    }
 
-const range = (start, stop, step) => 
-    Array.from({ length: (stop - start) / step + 1}, (_, i) => start + (i * step));
-</script>
-<script>
-const phonemes = [
-    'B',  'D', 'J', 'G',  'P', 'T', 'C', 'K',  'M', 'N', 'NY', 'NG',
-    'S', 'H', 'L', 'R',  'W', 'Y', 'NULLF',   'A', 'E', 'I', 'U', 'O' ];
-const registers = {
-    vowels:             phonemes.slice(19, 24),
-    semivowels:         phonemes.slice(16, 18),
-    voiced:             phonemes.slice(0, 4),
-    voiceless:          phonemes.slice(4, 8),
-    plosives:           phonemes.slice(0, 8),
-    nasals:             phonemes.slice(8, 12),
-    fricatives:         phonemes.slice(12, 16),
-    consonants:         phonemes.slice(0, 18),
-    consonantsWithNull: phonemes.slice(0, 19),
-    laminals:           ['C', 'J', 'NY']
-};
+    const range = (start, stop, step) =>
+      Array.from({ length: (stop - start) / step + 1 }, (_, i) => start + (i * step));
+  </script>
+  <script>
+    const phonemes = [
+      'B', 'D', 'J', 'G', 'P', 'T', 'C', 'K', 'M', 'N', 'NY', 'NG',
+      'S', 'H', 'L', 'R', 'W', 'Y', 'NULLF', 'A', 'E', 'I', 'U', 'O'];
+    const registers = {
+      vowels: phonemes.slice(19, 24).concat(Array(3).fill('A')),
+      semivowels: phonemes.slice(16, 18),
+      voiced: phonemes.slice(0, 4),
+      voiceless: phonemes.slice(4, 8),
+      plosives: phonemes.slice(0, 8),
+      nasals: phonemes.slice(8, 12),
+      fricatives: phonemes.slice(12, 16),
+      consonants: phonemes.slice(0, 18),
+      consonantsWithNull: phonemes.slice(0, 19).concat(Array(5).fill('NULLF')),
+      laminals: ['C', 'J', 'NY']
+    };
 
-const phonotactics = [
-    function(c1, v1, c2, c3, v2, c4) { 
+    const phonotactics = [
+      (c1, v1, c2, c3, v2, c4) =>
         // 1. Onset Homorganicity
-        return !([c1, c3].equals( ['B', 'P'])) && !([c1, c3].equals( ['P', 'B'])) &&
-            !([c1, c3].equals( ['C', 'J'])) && !([c1, c3].equals( ['J', 'C'])) &&
-            !([c1, c3].equals( ['K', 'G'])) && !([c1, c3].equals( ['G', 'K'])); },
-    function(c1, v1, c2, c3, v2, c4) { 
+        !([c1, c3].equals(['B', 'P'])) && !([c1, c3].equals(['P', 'B'])) &&
+        !([c1, c3].equals(['C', 'J'])) && !([c1, c3].equals(['J', 'C'])) &&
+        !([c1, c3].equals(['K', 'G'])) && !([c1, c3].equals(['G', 'K'])),
+      (c1, v1, c2, c3, v2, c4) =>
         // 2. Coda Consonants
-        return !registers.voiced.includes(c2) && !registers.voiced.includes(c4) &&
-            !registers.laminals.includes(c2) && !registers.laminals.includes(c4); },
-    function(c1, v1, c2, c3, v2, c4) { 
+        !registers.voiced.includes(c2) && !registers.voiced.includes(c4) &&
+        !registers.laminals.includes(c2) && !registers.laminals.includes(c4),
+      (c1, v1, c2, c3, v2, c4) =>
         // 3. First Coda
-        return c2 != 'H' && !registers.voiceless.includes(c2) &&
-            ( c2 != 'S' || registers.voiceless.includes(c3) ); },
-    function(c1, v1, c2, c3, v2, c4) { 
+        c2 != 'H' && !registers.voiceless.includes(c2) &&
+        (c2 != 'S' || registers.voiceless.includes(c3)),
+      (c1, v1, c2, c3, v2, c4) =>
         // 4. Nasal coda
-        return !registers.nasals.includes(c2) || 
-            [c2,c3].equals(['M', 'B']) || [c2,c3].equals(['M', 'P']) || 
-            [c2,c3].equals(['N', 'T']) || [c2,c3].equals(['N', 'D']) || 
-            [c2,c3].equals(['N', 'C']) || [c2,c3].equals(['N', 'J']) || 
-            [c2,c3].equals(['NG', 'S']) || [c2,c3].equals(['NG', 'K']) ||
-            [c2,c3].equals(['NG', 'G']) },
-    function(c1, v1, c2, c3, v2, c4) { 
+        !registers.nasals.includes(c2) ||
+        [c2, c3].equals(['M', 'B']) || [c2, c3].equals(['M', 'P']) ||
+        [c2, c3].equals(['N', 'T']) || [c2, c3].equals(['N', 'D']) ||
+        [c2, c3].equals(['N', 'C']) || [c2, c3].equals(['N', 'J']) ||
+        [c2, c3].equals(['NG', 'S']) || [c2, c3].equals(['NG', 'K']) ||
+        [c2, c3].equals(['NG', 'G']),
+      (c1, v1, c2, c3, v2, c4) =>
         // 5a. R coda
-        return c2 != 'R' || ( ['G', 'K', 'N'].includes(c3) && ['A', 'I'].includes(v2)) ; },
-    function(c1, v1, c2, c3, v2, c4) { 
+        c2 != 'R' || (['G', 'K', 'N'].includes(c3) &&
+          ['A', 'I'].includes(v2) && c4 == 'NULLF'),
+      (c1, v1, c2, c3, v2, c4) =>
         // 5b. L coda
-        return c2 != 'L' || ( ['D', 'T', 'B', 'P'].includes(c3) && ['A', 'I'].includes(v2)) ; },
-    function(c1, v1, c2, c3, v2, c4) { 
+        c2 != 'L' || (['D', 'T', 'B', 'P'].includes(c3) &&
+          ['A', 'I'].includes(v2) && c4 == 'NULLF'),
+      (c1, v1, c2, c3, v2, c4) =>
         // 6. No gemination
-        return c2 != c3; },
-    function(c1, v1, c2, c3, v2, c4) { 
+        c2 != c3,
+      (c1, v1, c2, c3, v2, c4) =>
         // 7. No E in second syllable
-        return v2 != 'E'; },
-    function(c1, v1, c2, c3, v2, c4) { 
+        v2 != 'E',
+      (c1, v1, c2, c3, v2, c4) =>
         // 8. No semivowel in first syllable
-        return !['W', 'Y'].includes(c2); },
-    function(c1, v1, c2, c3, v2, c4) { 
+        !['W', 'Y'].includes(c2),
+      (c1, v1, c2, c3, v2, c4) =>
         // 9. Semivowel harmony
-        return ![v2, c4].equals(['I', 'Y']) && ![v2, c4].equals(['E', 'Y']) && 
-            ![v2, c4].equals(['O', 'W']) && ![v2, c4].equals(['U', 'W']) },
-    function(c1, v1, c2, c3, v2, c4) { 
+        ![v2, c4].equals(['I', 'Y']) && ![v2, c4].equals(['E', 'Y']) &&
+        ![v2, c4].equals(['O', 'W']) && ![v2, c4].equals(['U', 'W']),
+      (c1, v1, c2, c3, v2, c4) =>
         // 10. Semivowel harmony
-        return c1 != 'W' || ['A', 'I'].includes(v1); },
-    function(c1, v1, c2, c3, v2, c4) { 
+        c1 != 'W' || ['A', 'I'].includes(v1),
+      (c1, v1, c2, c3, v2, c4) =>
         // 11. Semivowel harmony
-        return c1 != 'Y' || ['A', 'U'].includes(v1); },
-    function(c1, v1, c2, c3, v2, c4) { 
+        c1 != 'Y' || ['A', 'U'].includes(v1),
+      (c1, v1, c2, c3, v2, c4) =>
         // 12. S scarcity
-        return c2 != 'S' && c4 != 'S'; },
-    function(c1, v1, c2, c3, v2, c4) { 
+        c2 != 'S' && c4 != 'S',
+      (c1, v1, c2, c3, v2, c4) =>
         // 13. No I between voiced-voiceless pair
-        return v2 != 'I' || (![c3,c4].equals(['B','P']) && ![c3,c4].equals(['D','T']) &&
-            ![c3,c4].equals(['J','C']) && ![c3,c4].equals(['G','K'])); },
-    function(c1, v1, c2, c3, v2, c4) {
+        v2 != 'I' || (![c3, c4].equals(['B', 'P']) && ![c3, c4].equals(['D', 'T']) &&
+          ![c3, c4].equals(['J', 'C']) && ![c3, c4].equals(['G', 'K'])),
+      (c1, v1, c2, c3, v2, c4) =>
         // 14. 
-        return c1 != 'NY' && c1 != 'NG'; },
-    function(c1, v1, c2, c3, v2, c4) { 
+        c1 != 'NY' && c1 != 'NG',
+      (c1, v1, c2, c3, v2, c4) =>
         // 15. Nasal middle
-        return !registers.nasals.includes(c3) || c2 == 'NULLF';
-    }
-];
+        !registers.nasals.includes(c3) || c2 == 'NULLF',
+    ];
 
-function* shuffleGen() {
-    while (true) {
+    function* shuffleGen() {
+      while (true) {
         yield [
-            registers.consonantsWithNull.random(),
-            registers.vowels.random(),
-            registers.consonantsWithNull.random(),
-            registers.consonants.random(),
-            registers.vowels.random(),
-            registers.consonantsWithNull.random()
+          registers.consonantsWithNull.random(),
+          registers.vowels.random(),
+          registers.consonantsWithNull.random(),
+          registers.consonants.random(),
+          registers.vowels.random(),
+          registers.consonantsWithNull.random()
         ];
+      }
     }
-}
 
-//let genCount = 0;
+    //let genCount = 0;
 
-function tryGenerateValidWord(gen) {
-    while (true) {
+    function tryGenerateValidWord(gen) {
+      while (true) {
         let w = gen.next().value;
         //genCount = genCount + 1;
         if (
-            phonotactics.reduce((a, b) => a && b.apply(null, w) , true)
+          phonotactics.reduce((a, b) => a && b.apply(null, w), true)
         ) return w;
+      }
     }
-}
 
-function wordParse(warr) {
-    if (warr[5] == 'W') warr[5] = 'U';
-    if (warr[5] == 'Y') warr[5] = 'I';
-    if (warr[2] == 'W') warr[2] = 'U';
-    if (warr[2] == 'Y') warr[2] = 'I';
-    return warr.filter(a => a != 'NULLF').join('').toLocaleLowerCase()
-}
+    function wordParse(warr) {
+      if (warr[5] == 'W') warr[5] = 'U';
+      if (warr[5] == 'Y') warr[5] = 'I';
+      if (warr[2] == 'W') warr[2] = 'U';
+      if (warr[2] == 'Y') warr[2] = 'I';
+      return warr.filter(a => a != 'NULLF').join('').toLocaleLowerCase()
+    }
 
-const gen = shuffleGen();
+    const gen = shuffleGen();
 
-function testRules() {
-    let words = range(1,10000,1).map(a => gen.next().value);
-    //console.log(words);
-    let count = words
-        .filter( ww => phonotactics.reduce( (a, b) => a && b.apply(null, ww) , true ) ).length ;
-    console.log('This many words passed the phonotactics test: ' + count);
-}
+    function testRules() {
+      let words = range(1, 10000, 1).map(a => gen.next().value);
+      //console.log(words);
+      let count = words
+        .filter(ww => phonotactics.reduce((a, b) => a && b.apply(null, ww), true)).length;
+      console.log('This many words passed the phonotactics test: ' + count);
+    }
 
-function testRules2() {
-    let words = range(1, 10000, 1).map(a => gen.next().value);
-    phonotactics.forEach((f, ix, arr) =>
-        console.log('Rule ' + (ix + 1) + ': ' + 
-            (words.filter(ww => f.apply(null, ww)).length) + ' passed.'));
-}
+    function testRules2() {
+      let words = range(1, 10000, 1).map(a => gen.next().value);
+      phonotactics.forEach((f, ix, arr) =>
+        console.log('Rule ' + (ix + 1) + ': ' +
+          (words.filter(ww => f.apply(null, ww)).length) + ' passed.'));
+    }
 
-function setup() {
-    const btn = document.querySelector('main button');
-    const div = document.querySelector('main div');
-    const span = document.createElement('span');
-    
-    btn.onclick = function(e) {
+    function setup() {
+      const div = document.querySelector('main div');
+      const form = document.querySelector('form');
+
+      form.onsubmit = function (e) {
+        e.preventDefault();
         div.innerHTML = '';
-        let gen = shuffleGen();
-        //genCount = 0;
-        let ix = 100;
-        while (ix > 0) {
-            ix = ix - 1;
-            let word = tryGenerateValidWord(gen);
-            let ww = span.cloneNode();
-            ww.innerHTML = wordParse(word);
-            div.appendChild(ww);
-        }
-        //console.log('Words generated: ' + genCount);
-    };
-}
 
-window.onload = setup;
-</script>
+        let gen = shuffleGen();
+
+        let ix = 120;
+        let cumm = []
+        while (ix > 0) {
+          ix = ix - 1;
+          cumm.push(wordParse(tryGenerateValidWord(gen)));
+        }
+
+        div.setAttribute('data-grid', form.grid.checked)
+        if (form.grid.checked) {
+          const span = document.createElement('span');
+          cumm.forEach(word => {
+            let ww = span.cloneNode();
+            ww.innerHTML = word;
+            div.appendChild(ww);
+          })
+        } else {
+          div.innerHTML = cumm.join(' ')
+        }
+      };
+    }
+
+    window.onload = setup;
+  </script>
 </head>
+
 <body class='w3-theme-l5'>
-<main>
+  <main>
     <h1 class='w3-text-theme'>Neomalay Lexeme Synthesizer</h1>
-    <button class='w3-theme-l4 w3-hover-theme'>Generate</button>
+    <form>
+      <button class='w3-theme-l4 w3-hover-theme'>Generate</button>
+      <input type='checkbox' name="grid" checked />
+      <label>Grid</label>
+    </form>
     <div class='w3-text-theme'></div>
     <a href='https://github.com/AliceCengal/Neomalay-Lexeme-Synthesizer' target="_blank">About</a>
-</main>
-<footer>site design and logo &copy; Athran Zuhail 2022 all rights reserved</footer>
+  </main>
+  <footer>site design and logo &copy; Athran Zuhail 2022 all rights reserved</footer>
 </body>
+
 </html>
