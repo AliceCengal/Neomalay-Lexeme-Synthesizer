@@ -6,12 +6,26 @@
   <title>Neomalay Lexeme Synthesizer</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link rel="shortcut icon" href="favicon.ico">
-  <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-deep-purple.css">
   <style>
     html {
       font-family: Helvetica, Arial, sans-serif;
       box-sizing: border-box;
       height: 100%;
+    }
+
+    :root {
+      --c-left-dark: hsl(210, 50%, 38%);
+      --c-left-base: hsl(210, 50%, 53%);
+      --c-left-lite: hsl(210, 50%, 77%);
+      --c-left-hint: hsl(210, 50%, 95%);
+      --c-center-dark: hsl(240, 50%, 49%);
+      --c-center-base: hsl(240, 50%, 65%);
+      --c-center-lite: hsl(240, 50%, 86%);
+      --c-center-hint: hsl(240, 50%, 97%);
+      --c-right-dark: hsl(270, 50%, 42%);
+      --c-right-base: hsl(270, 50%, 57%);
+      --c-right-lite: hsl(270, 50%, 80%);
+      --c-right-hint: hsl(270, 50%, 96%);
     }
 
     *,
@@ -27,6 +41,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
+      background-color: var(--c-center-hint);
     }
 
     main {
@@ -40,15 +55,28 @@
 
     main h1 {
       text-align: center;
+      color: var(--c-center-dark);
     }
 
     main button {
       padding: 0.5rem;
+      border: 0;
       border-radius: 4px;
       margin-right: 1rem;
+      background-color: var(--c-left-base);
+      color: white;
+    }
+
+    main button:hover {
+      background-color: var(--c-left-dark);
+    }
+
+    main label {
+      color: var(--c-center-dark);
     }
 
     main div {
+      color: var(--c-right-base);
       background-color: white;
       width: min(50rem, calc(100% - 2rem));
       grid-template-columns: repeat(4, 1fr);
@@ -82,16 +110,20 @@
     }
 
     footer {
-      margin: 1rem;
+      padding: 1rem;
       font-size: small;
-      color: gray;
+      color: var(--c-center-dark);
     }
   </style>
   <script>
     // https://stackoverflow.com/questions/7837456/how-to-compare-arrays-in-javascript
     // Warn if overriding existing method
     if (Array.prototype.equals)
-      console.warn("Overriding existing Array.prototype.equals. Possible causes: New API defines the method, there's a framework conflict or you've got double inclusions in your code.");
+      console.warn(
+        "Overriding existing Array.prototype.equals. Possible causes: " +
+        "New API defines the method, there's a framework conflict or you've " +
+        "got double inclusions in your code."
+      );
     // attach the .equals method to Array's prototype to call it on any array
     Array.prototype.equals = function (array) {
       // if the other array is a falsy value, return
@@ -300,18 +332,22 @@
   </script>
 </head>
 
-<body class='w3-theme-l5'>
+<body>
   <main>
-    <h1 class='w3-text-theme'>Neomalay Lexeme Synthesizer</h1>
+    <h1>Neomalay Lexeme Synthesizer</h1>
     <form>
-      <button class='w3-theme-l4 w3-hover-theme'>Generate</button>
+      <button>Generate</button>
       <input type='checkbox' name="grid" checked />
       <label>Grid</label>
     </form>
-    <div class='w3-text-theme'></div>
-    <a href='https://github.com/AliceCengal/Neomalay-Lexeme-Synthesizer' target="_blank">About</a>
+    <div></div>
+    <a href='https://github.com/AliceCengal/Neomalay-Lexeme-Synthesizer' target="_blank">
+      About
+    </a>
   </main>
-  <footer>site design and logo &copy; Athran Zuhail 2022 all rights reserved</footer>
+  <footer>
+    site design and logo &copy; Athran Zuhail 2022 all rights reserved
+  </footer>
 </body>
 
 </html>
