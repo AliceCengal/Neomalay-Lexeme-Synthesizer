@@ -165,13 +165,27 @@
 
     const range = (start, stop, step) =>
       Array.from({ length: (stop - start) / step + 1 }, (_, i) => start + (i * step));
+
+    function markov(terms, marray) {
+
+      return ([ix, term]) => {
+        let rix = marray.length
+        let roll = Math.random()
+        while (rix > 0) {
+          rix = rix - 1
+          if (marray[ix][rix] > roll) break;
+          roll = roll - marray[ix][rix]
+        }
+        return [rix, terms[rix]]
+      }
+    }
   </script>
   <script>
     const phonemes = [
       'B', 'D', 'J', 'G', 'P', 'T', 'C', 'K', 'M', 'N', 'NY', 'NG',
       'S', 'H', 'L', 'R', 'W', 'Y', 'NULLF', 'A', 'E', 'I', 'U', 'O'];
     const registers = {
-      vowels: phonemes.slice(19, 24).concat(Array(3).fill('A')),
+      vowels: phonemes.slice(19, 24).concat(Array(2).fill('A')),
       semivowels: phonemes.slice(16, 18),
       voiced: phonemes.slice(0, 4),
       voiceless: phonemes.slice(4, 8),
@@ -207,12 +221,15 @@
         [c2, c3].equals(['NG', 'G']),
       (c1, v1, c2, c3, v2, c4) =>
         // 5a. R coda
-        c2 != 'R' || (['G', 'K', 'N'].includes(c3) &&
+        c2 != 'R' || (
+          ['G', 'K', 'N'].includes(c3) &&
           ['A', 'I'].includes(v2) && c4 == 'NULLF'),
       (c1, v1, c2, c3, v2, c4) =>
         // 5b. L coda
         c2 != 'L' || (['D', 'T', 'B', 'P'].includes(c3) &&
           ['A', 'I'].includes(v2) && c4 == 'NULLF'),
+      (c1, v1, c2, c3, v2, c4) =>
+        (c1 != 'R' || c2 != 'R') && (c1 != 'L' || c2 != 'L'),
       (c1, v1, c2, c3, v2, c4) =>
         // 6. No gemination
         c2 != c3,
@@ -323,7 +340,28 @@
             div.appendChild(ww);
           })
         } else {
-          div.innerHTML = cumm.join(' ')
+          const m = markov(
+            ["WORD", "an", "kan", "nya", ",", "."],
+            [[0.4, 0.15, 0.1, 0.05, 0.15, 0.15],
+            [0.7, 0.0, 0.0, 0.0, 0.15, 0.15],
+            [0.7, 0.0, 0.0, 0.0, 0.15, 0.15],
+            [0.7, 0.0, 0.0, 0.0, 0.15, 0.15],
+            [0.7, 0.15, 0.1, 0.05, 0, 0],
+            [0.7, 0.15, 0.1, 0.05, 0, 0]]
+          )
+
+          div.innerHTML = cumm.reduce((a, b) => {
+            const r = m([a[0]])
+            if (r[1] === "WORD")
+              return [r[0], a[1].concat(b)]
+            if (r[0] < 4) {
+              const r2 = m(r)
+              if (r2[1] === "WORD")
+                return [r2[0], a[1].concat(b + r[1])]
+              return [r2[0], a[1].concat(b + r[1] + r2[1])]
+            }
+            return [r[0], a[1].concat(b + r[1])]
+          }, [0, []])[1].join(" ")
         }
       };
     }
