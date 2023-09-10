@@ -37,25 +37,28 @@
     body {
       margin: 0;
       height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      align-items: start;
+      justify-items: center;
       background-color: var(--c-center-hint);
     }
 
     main {
-      display: flex;
-      width: 100%;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
+      display: grid;
+      align-items: start;
+      justify-items: center;
       gap: 1rem;
+      max-width: 50rem;
     }
 
     main h1 {
       text-align: center;
       color: var(--c-center-dark);
+    }
+
+    main form {
+      display: contents;
     }
 
     main button {
@@ -71,11 +74,11 @@
       background-color: var(--c-left-dark);
     }
 
-    main label {
+    main label span {
       color: var(--c-center-dark);
     }
 
-    main div {
+    main output {
       color: var(--c-right-base);
       background-color: white;
       width: min(50rem, calc(100% - 2rem));
@@ -83,27 +86,27 @@
       grid-gap: 1rem;
     }
 
-    main div[data-grid='false'] {
+    main output[data-grid='false'] {
       display: block;
     }
 
-    main div[data-grid='true'] {
+    main output[data-grid='true'] {
       display: grid;
     }
 
     @media (min-width: 600px) {
-      main div {
+      main output {
         grid-template-columns: repeat(6, 1fr);
       }
     }
 
     @media (min-width: 800px) {
-      main div {
+      main output {
         grid-template-columns: repeat(8, 1fr);
       }
     }
 
-    main div:not(:empty) {
+    main output:not(:empty) {
       padding: 1rem;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
       border-radius: 4px;
@@ -194,7 +197,10 @@
       fricatives: phonemes.slice(12, 16),
       consonants: phonemes.slice(0, 18),
       consonantsWithNull: phonemes.slice(0, 19).concat(Array(5).fill('NULLF')),
-      laminals: ['C', 'J', 'NY']
+      labials: ['B', 'P', 'M'],
+      dentals: ['D', 'T', 'N'],
+      laminals: ['C', 'J', 'NY'],
+      velars: ['G', 'K', 'NG'],
     };
 
     const phonotactics = [
@@ -235,10 +241,10 @@
         c2 != c3,
       (c1, v1, c2, c3, v2, c4) =>
         // 7. No E in second syllable
-        v2 != 'E',
+        v2 != 'E' && v2 != 'O',
       (c1, v1, c2, c3, v2, c4) =>
         // 8. No semivowel in first syllable
-        !['W', 'Y'].includes(c2),
+        !registers.semivowels.includes(c2),
       (c1, v1, c2, c3, v2, c4) =>
         // 9. Semivowel harmony
         ![v2, c4].equals(['I', 'Y']) && ![v2, c4].equals(['E', 'Y']) &&
@@ -251,7 +257,10 @@
         c1 != 'Y' || ['A', 'U'].includes(v1),
       (c1, v1, c2, c3, v2, c4) =>
         // 12. S scarcity
-        c2 != 'S' && c4 != 'S',
+        c2 != 'S' || c4 === 'NULLF',
+      (c1, v1, c2, c3, v2, c4) =>
+        // 12. S scarcity
+        c4 != 'S' || c2 === 'NULLF',
       (c1, v1, c2, c3, v2, c4) =>
         // 13. No I between voiced-voiceless pair
         v2 != 'I' || (![c3, c4].equals(['B', 'P']) && ![c3, c4].equals(['D', 'T']) &&
@@ -314,30 +323,35 @@
           (words.filter(ww => f.apply(null, ww)).length) + ' passed.'));
     }
 
+    function generateLexemes() {
+      let gen = shuffleGen();
+      let ix = 120;
+      let cumm = []
+      while (ix > 0) {
+        ix = ix - 1;
+        cumm.push(wordParse(tryGenerateValidWord(gen)));
+      }
+      return cumm
+    }
+
     function setup() {
-      const div = document.querySelector('main div');
-      const form = document.querySelector('form');
+      let form = document.querySelector('form');
 
       form.onsubmit = function (e) {
         e.preventDefault();
-        div.innerHTML = '';
+        form = e.currentTarget;
+        const output = form['result'];
+        output.value = '';
 
-        let gen = shuffleGen();
+        const lexemes = generateLexemes()
 
-        let ix = 120;
-        let cumm = []
-        while (ix > 0) {
-          ix = ix - 1;
-          cumm.push(wordParse(tryGenerateValidWord(gen)));
-        }
-
-        div.setAttribute('data-grid', form.grid.checked)
+        output.setAttribute('data-grid', form.grid.checked)
         if (form.grid.checked) {
           const span = document.createElement('span');
-          cumm.forEach(word => {
+          lexemes.forEach(word => {
             let ww = span.cloneNode();
             ww.innerHTML = word;
-            div.appendChild(ww);
+            output.appendChild(ww);
           })
         } else {
           const m = markov(
@@ -350,7 +364,7 @@
             [0.7, 0.15, 0.1, 0.05, 0, 0]]
           )
 
-          div.innerHTML = cumm.reduce((a, b) => {
+          output.innerHTML = lexemes.reduce((a, b) => {
             const r = m([a[0]])
             if (r[1] === "WORD")
               return [r[0], a[1].concat(b)]
@@ -374,11 +388,16 @@
   <main>
     <h1>Neomalay Lexeme Synthesizer</h1>
     <form>
-      <button>Generate</button>
-      <input type='checkbox' name="grid" checked />
-      <label>Grid</label>
+      <div>
+        <button type="submit">Generate</button>
+        <label>
+          <input type='checkbox' name="grid" checked />
+          <span>Grid</span>
+        </label>
+      </div>
+      <output name="result"></output>
     </form>
-    <div></div>
+
     <a href='https://github.com/AliceCengal/Neomalay-Lexeme-Synthesizer' target="_blank">
       About
     </a>
