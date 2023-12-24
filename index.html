@@ -62,20 +62,34 @@
     }
 
     main button {
-      padding: 0.5rem;
+      padding: 0.5rem 1rem;
       border: 0;
       border-radius: 4px;
-      margin-right: 1rem;
+      margin-right: 2rem;
       background-color: var(--c-left-base);
       color: white;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 1px;
     }
 
     main button:hover {
       background-color: var(--c-left-dark);
     }
 
+    main label {
+      display: inline-block;
+      margin-right: 8px;
+    }
+
     main label span {
       color: var(--c-center-dark);
+    }
+
+    main fieldset {
+      display: inline-block;
+      border-radius: 4px;
     }
 
     main output {
@@ -345,8 +359,8 @@
 
         const lexemes = generateLexemes()
 
-        output.setAttribute('data-grid', form.grid.checked)
-        if (form.grid.checked) {
+        output.setAttribute('data-grid', form.mode.value === 'grid')
+        if (form.mode.value === 'grid') {
           const span = document.createElement('span');
           lexemes.forEach(word => {
             let ww = span.cloneNode();
@@ -389,11 +403,17 @@
     <h1>Neomalay Lexeme Synthesizer</h1>
     <form>
       <div>
+        <fieldset>
+          <label>
+            <input type='radio' name="mode" checked value="grid" />
+            <span>Grid</span>
+          </label>
+          <label>
+            <input type='radio' name="mode" value="paragraph" />
+            <span>Paragraph</span>
+          </label>
+        </fieldset>
         <button type="submit">Generate</button>
-        <label>
-          <input type='checkbox' name="grid" checked />
-          <span>Grid</span>
-        </label>
       </div>
       <output name="result"></output>
     </form>
@@ -403,7 +423,7 @@
     </a>
   </main>
   <footer>
-    site design and logo &copy; Athran Zuhail 2022 all rights reserved
+    &copy; Athran Zuhail 2022
   </footer>
 </body>
 
